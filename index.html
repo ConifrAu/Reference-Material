@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conifr Data Insights Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --conifr-green: #176149;
+            --conifr-teal: #003B49;
+            --conifr-mint: #539A7E;
+            --conifr-bg: #F1F5F9;
+            --conifr-soft: #F8FAFC;
+            --conifr-border: #E2E8F0;
+            --conifr-text: #334155;
+            --conifr-muted: #64748B;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--conifr-bg);
+            color: var(--conifr-text);
+            margin: 0;
+            padding: 0;
+        }
+
+        .page-container {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            padding: 15mm 18mm 14mm 18mm;
+            box-shadow: 0 0 18px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            page-break-after: always;
+            position: relative;
+        }
+
+        .page-content {
+            flex-grow: 1;
+        }
+
+        .page-footer {
+            flex-shrink: 0;
+            padding-top: 0.9rem;
+            border-top: 1px solid var(--conifr-border);
+            font-size: 0.75rem;
+            color: var(--conifr-muted);
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .brand-kicker {
+            margin-top: 4px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--conifr-green);
+            text-transform: uppercase;
+        }
+
+        .header-line {
+            width: 110px;
+            height: 4px;
+            background: var(--conifr-green);
+            margin-top: 8px;
+            margin-bottom: 18px;
+            border-radius: 999px;
+        }
+
+        .section-title {
+            color: var(--conifr-green);
+            font-size: 1.08rem;
+            font-weight: 800;
+            border-bottom: 2px solid var(--conifr-bg);
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+
+        .eyebrow {
+            color: var(--conifr-green);
+            font-size: 0.76rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .callout-box {
+            background: var(--conifr-soft);
+            border-left: 4px solid var(--conifr-mint);
+            padding: 14px 16px;
+            border-radius: 6px;
+        }
+
+        .tip-box {
+            background: #F0FDFA;
+            border: 1px solid #A7F3D0;
+            padding: 14px 16px;
+            border-radius: 10px;
+        }
+
+        .warn-box {
+            background: #FFF7ED;
+            border: 1px solid #FED7AA;
+            padding: 14px 16px;
+            border-radius: 10px;
+        }
+
+        .card {
+            border: 1px solid var(--conifr-border);
+            border-radius: 12px;
+            padding: 14px;
+            background: white;
+        }
+
+        .soft-card {
+            border: 1px solid var(--conifr-border);
+            border-radius: 12px;
+            padding: 14px;
+            background: var(--conifr-soft);
+        }
+
+        .mini-title {
+            color: var(--conifr-teal);
+            font-weight: 800;
+            font-size: 0.98rem;
+            margin-bottom: 8px;
+        }
+
+        .check-list, .dash-list, .num-list {
+            margin: 0;
+            padding-left: 1.1rem;
+        }
+
+        .check-list li, .dash-list li, .num-list li {
+            margin-bottom: 0.32rem;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            border: 1px solid var(--conifr-border);
+            padding: 8px 9px;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .data-table th {
+            background: var(--conifr-teal);
+            color: white;
+            font-weight: 700;
+        }
+
+        .muted {
+            color: var(--conifr-muted);
+        }
+
+        .flow-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .flow-box {
+            border-radius: 12px;
+            border: 1px solid var(--conifr-border);
+            padding: 14px 12px;
+            min-height: 86px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--conifr-soft);
+        }
+
+        .flow-box.result {
+            background: #F0FDFA;
+            border-color: #86EFAC;
+        }
+
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--conifr-green);
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .pill-green {
+            background: #DCFCE7;
+            color: #166534;
+        }
+
+        .pill-slate {
+            background: #E2E8F0;
+            color: #334155;
+        }
+
+        .pill-amber {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+        }
+
+        .four-col {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, #F8FAFC, #EFF6FF);
+            border: 1px solid var(--conifr-border);
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        .cover-hero {
+            background: linear-gradient(135deg, rgba(0,59,73,1) 0%, rgba(23,97,73,1) 100%);
+            border-radius: 20px;
+            padding: 28px;
+            color: white;
+        }
+
+        .cover-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .big-number {
+            font-size: 2rem;
+            line-height: 1;
+            font-weight: 800;
+            color: var(--conifr-green);
+        }
+
+        .small {
+            font-size: 0.8rem;
+            line-height: 1.45;
+        }
+
+        .tiny {
+            font-size: 0.72rem;
+            line-height: 1.4;
+        }
+
+        .page-no {
+            font-weight: 700;
+            color: var(--conifr-teal);
+        }
+
+        @media print {
+            body {
+                background: white !important;
+            }
+            .page-container {
+                margin: 0;
+                width: 100%;
+                min-height: 297mm;
+                box-shadow: none;
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <!-- PAGE 1 -->
+    <div class="page-container">
+        <div class="page-content flex flex-col justify-between">
+            <div>
+                <header class="mb-10">
+                    <div style="display:flex; flex-direction:column; align-items:flex-start;">
+                        <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/conifr-logo.svg" alt="Conifr logo" style="width:180px; height:auto;">
+                        <div class="brand-kicker">Operational Intelligence Platform</div>
+                    </div>
+                </header>
+
+                <section class="cover-hero mb-8">
+                    <div class="cover-grid">
+                        <div>
+                            <div class="eyebrow text-white" style="color:#D1FAE5;">User Guide</div>
+                            <h1 style="font-size:2.9rem; line-height:1.02; font-weight:800; margin:10px 0 14px 0;">Your Data Insights Guide</h1>
+                            <p style="font-size:1.06rem; line-height:1.7; color:#E2E8F0; max-width:95%;">
+                                A practical guide to exploring curated datasets, building useful reports, and answering business questions inside Conifr.
+                            </p>
+                        </div>
+                        <div class="soft-card" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.12); color:white;">
+                            <div class="mini-title" style="color:white;">What this guide is for</div>
+                            <ul class="check-list" style="padding-left:1rem;">
+                                <li>Understand the data views available to you</li>
+                                <li>Build reports safely without needing technical skills</li>
+                                <li>Use filters, summaries and dashboards with confidence</li>
+                                <li>Know when to self-serve and when to ask Conifr for help</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="two-col">
+                    <div class="card">
+                        <div class="mini-title">The Conifr approach</div>
+                        <p class="small">
+                            Conifr turns fragmented operational and financial information into structured, business-ready datasets. This guide is designed to help end users work confidently with those curated views without needing to understand the underlying technical model.
+                        </p>
+                    </div>
+                    <div class="card">
+                        <div class="mini-title">Who this guide is for</div>
+                        <p class="small">
+                            Finance teams, operations managers, sustainability leads, business users and anyone who needs to explore trusted data, build reporting views, and share insights with their team.
+                        </p>
+                    </div>
+                </section>
+            </div>
+
+            <section class="soft-card mt-8">
+                <div class="mini-title">What’s inside</div>
+                <div class="three-col small">
+                    <div>
+                        <strong>1.</strong> How Conifr structures your data<br>
+                        <strong>2.</strong> How to start with the right business question<br>
+                        <strong>3.</strong> Exploring curated datasets and fields<br>
+                        <strong>4.</strong> Building reports and charts
+                    </div>
+                    <div>
+                        <strong>5.</strong> Working with dashboards and filters<br>
+                        <strong>6.</strong> Saving, sharing and organising work<br>
+                        <strong>7.</strong> Common mistakes to avoid<br>
+                        <strong>8.</strong> Using Charlie for quick analysis
+                    </div>
+                    <div>
+                        <strong>9.</strong> Self-service boundaries and data trust<br>
+                        <strong>10.</strong> Example questions and reporting patterns<br>
+                        <strong>11.</strong> Glossary and support model<br>
+                        <strong>12.</strong> Quick-start checklist
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Data Insights Guide</p>
+            <p class="page-no">Page 1</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 2 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/conifr-logo.svg" alt="Conifr logo" style="width:150px; height:auto;">
+                <div class="brand-kicker">How your data is structured</div>
+                <div class="header-line"></div>
+            </header>
+
+            <section class="mb-6">
+                <h2 class="text-2xl font-extrabold mb-3" style="color:var(--conifr-teal);">From fragmented documents to business-ready insights</h2>
+                <p class="small">
+                    Most businesses already have systems, reports and spreadsheets. The problem is that these sources do not naturally reconcile into one decision-ready view. Conifr sits across those inputs, structures them, and presents curated data views that are safer and easier for business users to work with.
+                </p>
+            </section>
+
+            <section class="mb-6">
+                <div class="flow-row">
+                    <div class="flow-box">
+                        <div class="mini-title mb-1">Source Inputs</div>
+                        <div class="small">Invoices, dockets, timesheets, PDFs, spreadsheets, system exports and operational reports.</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">
+                        <div class="mini-title mb-1">Conifr Structuring</div>
+                        <div class="small">Extraction, classification, standardisation, reconciliation and business logic are applied.</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box result">
+                        <div class="mini-title mb-1" style="color:var(--conifr-green);">Curated Views</div>
+                        <div class="small">Trusted, analysis-ready datasets designed for reporting, comparison and decision-making.</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="two-col mb-6">
+                <div class="card">
+                    <h3 class="section-title">The three practical layers</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Layer</th>
+                                <th>What it contains</th>
+                                <th>Who it is for</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Source Layer</strong></td>
+                                <td>Original files, exports and raw source data</td>
+                                <td>Managed by Conifr</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Structured Layer</strong></td>
+                                <td>Cleaned, classified and standardised records</td>
+                                <td>Managed by Conifr</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Curated View Layer</strong></td>
+                                <td>Pre-joined, business-ready datasets for analysis</td>
+                                <td>Used by end users</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="soft-card">
+                    <h3 class="section-title">Why this matters</h3>
+                    <ul class="check-list">
+                        <li>You should not need to reconstruct complex joins or logic yourself.</li>
+                        <li>The curated view layer gives your team a consistent reporting foundation.</li>
+                        <li>This reduces conflicting reports, duplicated effort and accidental misinterpretation.</li>
+                        <li>It also allows Conifr to maintain the deeper analytical model that makes your reporting more reliable.</li>
+                    </ul>
+
+                    <div class="tip-box mt-4">
+                        <div class="mini-title mb-1">Working rule</div>
+                        <p class="small mb-0">Most users should build reports from curated views, not from base or raw tables.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="callout-box">
+                <strong>In plain English:</strong>
+                The hard part has already been done for you. Conifr has handled the messy joins, field alignment and business logic so your team can focus on asking useful questions and interpreting the answers.
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Structuring complexity into clarity</p>
+            <p class="page-no">Page 2</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 3 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">How to think before you click</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">Start with the business question</h2>
+            </header>
+
+            <section class="two-col mb-6">
+                <div class="card">
+                    <h3 class="section-title">Good reporting starts with a clear question</h3>
+                    <p class="small">
+                        Before building a chart or opening a dashboard, decide what decision you are trying to support. Clear questions lead to clearer reports, faster analysis and less rework.
+                    </p>
+                    <div class="mini-title mt-4">Examples of useful questions</div>
+                    <ul class="check-list">
+                        <li>Which suppliers have increased in cost over the last three months?</li>
+                        <li>Which assets have the highest maintenance cost this quarter?</li>
+                        <li>How has spend changed by site, region or cost centre?</li>
+                        <li>Which categories are driving our emissions trend?</li>
+                        <li>Where are we seeing anomalies, leakage or margin pressure?</li>
+                    </ul>
+                </div>
+                <div class="soft-card">
+                    <h3 class="section-title">Questions to avoid</h3>
+                    <ul class="dash-list">
+                        <li>“Show me everything.”</li>
+                        <li>“I’ll click around and see what happens.”</li>
+                        <li>“I just need a dashboard with lots of charts.”</li>
+                    </ul>
+
+                    <div class="warn-box mt-4">
+                        <div class="mini-title mb-1">Why vague requests create poor reports</div>
+                        <p class="small mb-0">
+                            Without a clear question, it is easy to overbuild dashboards, choose the wrong metric, or produce charts that look impressive but do not help anyone make a decision.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h3 class="section-title">A simple question framework</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Step</th>
+                            <th>Prompt</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Outcome</strong></td>
+                            <td>What decision are we trying to make?</td>
+                            <td>Decide which assets need investigation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Metric</strong></td>
+                            <td>What number or comparison matters?</td>
+                            <td>Total maintenance cost per asset</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Timeframe</strong></td>
+                            <td>What period are we reviewing?</td>
+                            <td>Current quarter vs previous quarter</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Lens</strong></td>
+                            <td>How do we want to break it down?</td>
+                            <td>By depot, supplier or asset type</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="quote-box">
+                <div class="mini-title">Best practice</div>
+                <p class="small mb-0">
+                    A good report usually answers one core question clearly. It does not need to answer every possible question at once.
+                </p>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Decision-first reporting</p>
+            <p class="page-no">Page 3</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 4 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Trusting what you see</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">Understanding curated datasets and fields</h2>
+            </header>
+
+            <section class="two-col mb-6">
+                <div class="card">
+                    <h3 class="section-title">What a curated dataset is</h3>
+                    <p class="small">
+                        A curated dataset is a prepared view of data that has already been structured for a business purpose. It is designed so users can explore, filter and summarise information without needing to understand the full technical model behind it.
+                    </p>
+
+                    <div class="mini-title mt-4">What you should expect</div>
+                    <ul class="check-list">
+                        <li>Clear naming that reflects business meaning</li>
+                        <li>Consistent fields across similar reports</li>
+                        <li>Fields that are appropriate for grouping, filtering or summarising</li>
+                        <li>Logic already applied where needed</li>
+                    </ul>
+                </div>
+
+                <div class="soft-card">
+                    <h3 class="section-title">What a curated dataset is not</h3>
+                    <ul class="dash-list">
+                        <li>It is not the raw source file</li>
+                        <li>It is not a place for rebuilding complex joins from scratch</li>
+                        <li>It is not an invitation to recreate Conifr’s deeper modelling logic</li>
+                    </ul>
+
+                    <div class="tip-box mt-4">
+                        <div class="mini-title mb-1">Rule of thumb</div>
+                        <p class="small mb-0">If a view already answers the business question well, use it as-is. Only ask for a new dataset when the current curated view genuinely cannot support the analysis.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h3 class="section-title">How to read a dataset description</h3>
+                <div class="three-col">
+                    <div class="card">
+                        <span class="pill pill-green">Purpose</span>
+                        <p class="small mt-3 mb-0">What the dataset is intended to help you analyse.</p>
+                    </div>
+                    <div class="card">
+                        <span class="pill pill-green">Grain</span>
+                        <p class="small mt-3 mb-0">The level of detail in each row, such as per invoice line, per asset, per day or per job.</p>
+                    </div>
+                    <div class="card">
+                        <span class="pill pill-green">Key dimensions</span>
+                        <p class="small mt-3 mb-0">The main columns you can use to filter, group or compare, such as supplier, site, asset or month.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="section-title">Field types you will commonly see</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Field type</th>
+                            <th>What it does</th>
+                            <th>How users usually work with it</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Date / time</td>
+                            <td>Shows when an event, transaction or record occurred</td>
+                            <td>Filter by month, quarter, year or custom range</td>
+                        </tr>
+                        <tr>
+                            <td>Category</td>
+                            <td>Groups data into labels such as supplier, site or waste stream</td>
+                            <td>Use for grouping and comparison</td>
+                        </tr>
+                        <tr>
+                            <td>Metric</td>
+                            <td>Numeric measure such as spend, quantity, cost or emissions</td>
+                            <td>Summarise using total, average, count or minimum/maximum</td>
+                        </tr>
+                        <tr>
+                            <td>Identifier</td>
+                            <td>Unique reference such as invoice ID, asset ID or job number</td>
+                            <td>Use for traceability and drill-through, not broad trend charts</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Curated data views</p>
+            <p class="page-no">Page 4</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 5 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Data literacy without the technical overhead</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">How to understand a dataset before using it</h2>
+            </header>
+
+            <section class="two-col mb-6">
+                <div class="card">
+                    <h3 class="section-title">Three checks before you start</h3>
+                    <ol class="num-list">
+                        <li><strong>Check the purpose.</strong> Does this dataset match the question you need to answer?</li>
+                        <li><strong>Check the grain.</strong> Is each row at the level you expect, such as per invoice line or per asset?</li>
+                        <li><strong>Check the main fields.</strong> Do you have the dimensions and metrics you need for comparison?</li>
+                    </ol>
+                </div>
+                <div class="soft-card">
+                    <h3 class="section-title">Why grain matters</h3>
+                    <p class="small">
+                        Many reporting errors happen because users compare or total records at the wrong level of detail. For example, a dataset at invoice-line level behaves differently from a monthly summary dataset.
+                    </p>
+                    <div class="warn-box mt-4">
+                        <div class="mini-title mb-1">Common issue</div>
+                        <p class="small mb-0">
+                            Summing a field in a detailed dataset can produce much larger totals than expected if the same business event appears across multiple rows for valid reasons.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h3 class="section-title">Example dataset card</h3>
+                <div class="soft-card">
+                    <div class="three-col">
+                        <div>
+                            <div class="mini-title">Dataset name</div>
+                            <p class="small mb-0">Asset Cost Summary</p>
+                        </div>
+                        <div>
+                            <div class="mini-title">Purpose</div>
+                            <p class="small mb-0">Analyse cost by asset over time</p>
+                        </div>
+                        <div>
+                            <div class="mini-title">Grain</div>
+                            <p class="small mb-0">One row per asset per period</p>
+                        </div>
+                    </div>
+                    <div class="two-col mt-4">
+                        <div>
+                            <div class="mini-title">Common dimensions</div>
+                            <ul class="check-list">
+                                <li>Asset</li>
+                                <li>Site / depot</li>
+                                <li>Period</li>
+                                <li>Cost category</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="mini-title">Common metrics</div>
+                            <ul class="check-list">
+                                <li>Total cost</li>
+                                <li>Fuel cost</li>
+                                <li>Maintenance cost</li>
+                                <li>Variance vs previous period</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="callout-box">
+                <strong>Best practice:</strong>
+                When a dataset has been purpose-built by Conifr, treat it as the preferred reporting layer for that business question.
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Grain, purpose and trust</p>
+            <p class="page-no">Page 5</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 6 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Getting started</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">Building your first report</h2>
+            </header>
+
+            <section class="mb-6">
+                <div class="two-col">
+                    <div class="card">
+                        <h3 class="section-title">The core workflow</h3>
+                        <ol class="num-list">
+                            <li>Choose the curated dataset that best matches your question.</li>
+                            <li>Apply filters to narrow the records you want to analyse.</li>
+                            <li>Summarise the measure you care about.</li>
+                            <li>Group results by the category or time period you want to compare.</li>
+                            <li>Choose a chart or table format that makes the answer easy to read.</li>
+                        </ol>
+                    </div>
+                    <div class="soft-card">
+                        <h3 class="section-title">A simple example</h3>
+                        <p class="small"><strong>Question:</strong> Which suppliers drove the most spend last month?</p>
+                        <ul class="check-list">
+                            <li>Select a supplier spend dataset</li>
+                            <li>Filter to last month</li>
+                            <li>Summarise total spend</li>
+                            <li>Group by supplier</li>
+                            <li>Sort highest to lowest</li>
+                            <li>Use a bar chart or table</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h3 class="section-title">What each step is doing</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Step</th>
+                            <th>Meaning</th>
+                            <th>Typical use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Filter</td>
+                            <td>Narrows down the records included</td>
+                            <td>Last 30 days, one region, one supplier type</td>
+                        </tr>
+                        <tr>
+                            <td>Summarise</td>
+                            <td>Turns many rows into a single number or grouped totals</td>
+                            <td>Total spend, average cost, count of records</td>
+                        </tr>
+                        <tr>
+                            <td>Group</td>
+                            <td>Breaks the summary into categories or time buckets</td>
+                            <td>By month, by supplier, by site, by asset</td>
+                        </tr>
+                        <tr>
+                            <td>Visualise</td>
+                            <td>Changes how the answer is displayed</td>
+                            <td>Table, line chart, bar chart, area chart</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="tip-box">
+                <div class="mini-title mb-1">Good habit</div>
+                <p class="small mb-0">
+                    Build the logic first. Worry about visual styling second. A well-structured table is often the fastest way to confirm you are answering the right question before converting it into a chart.
+                </p>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | First report workflow</p>
+            <p class="page-no">Page 6</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 7 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Filtering and summarising</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">Using filters, summaries and groupings well</h2>
+            </header>
+
+            <section class="three-col mb-6">
+                <div class="card">
+                    <div class="mini-title">Filters</div>
+                    <p class="small">Use filters to define scope before you compare or total anything.</p>
+                    <ul class="check-list">
+                        <li>Date range</li>
+                        <li>Status</li>
+                        <li>Site or region</li>
+                        <li>Supplier or category</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="mini-title">Summaries</div>
+                    <p class="small">Use summaries to create the metric that answers your question.</p>
+                    <ul class="check-list">
+                        <li>Total</li>
+                        <li>Average</li>
+                        <li>Count</li>
+                        <li>Minimum / maximum</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="mini-title">Groupings</div>
+                    <p class="small">Use groupings to compare that metric across time or categories.</p>
+                    <ul class="check-list">
+                        <li>By month</li>
+                        <li>By supplier</li>
+                        <li>By asset</li>
+                        <li>By cost centre</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="two-col mb-6">
+                <div class="soft-card">
+                    <h3 class="section-title">Strong pattern</h3>
+                    <p class="small"><strong>Example:</strong> “Show total maintenance cost by month for Depot A this year.”</p>
+                    <ol class="num-list">
+                        <li>Filter to Depot A</li>
+                        <li>Filter to current year</li>
+                        <li>Summarise total maintenance cost</li>
+                        <li>Group by month</li>
+                    </ol>
+                </div>
+                <div class="soft-card">
+                    <h3 class="section-title">Weak pattern</h3>
+                    <p class="small"><strong>Example:</strong> “Show maintenance.”</p>
+                    <ul class="dash-list">
+                        <li>No timeframe</li>
+                        <li>No metric</li>
+                        <li>No comparison</li>
+                        <li>No clear decision use</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="section-title">Tips for dates and categories</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Scenario</th>
+                            <th>Recommended approach</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Trend analysis</td>
+                            <td>Group by month or week and keep the timeframe consistent</td>
+                        </tr>
+                        <tr>
+                            <td>Comparing categories</td>
+                            <td>Limit the chart to the top categories so it stays readable</td>
+                        </tr>
+                        <tr>
+                            <td>Investigating anomalies</td>
+                            <td>Start broad, then filter further using drill-through or detail views</td>
+                        </tr>
+                        <tr>
+                            <td>Executive reporting</td>
+                            <td>Use fewer groups and clearer labels to avoid clutter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Filter, summarise, compare</p>
+            <p class="page-no">Page 7</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 8 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Choosing the right visual</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">Tables, charts and formatting</h2>
+            </header>
+
+            <section class="three-col mb-6">
+                <div class="card">
+                    <div class="mini-title">Use a table when</div>
+                    <ul class="check-list">
+                        <li>You need detail and traceability</li>
+                        <li>You want to sort and inspect records</li>
+                        <li>You need to export the result</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="mini-title">Use a bar chart when</div>
+                    <ul class="check-list">
+                        <li>You are comparing categories</li>
+                        <li>You want to show ranking</li>
+                        <li>Labels are important</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="mini-title">Use a line chart when</div>
+                    <ul class="check-list">
+                        <li>You are showing change over time</li>
+                        <li>The trend matters more than exact values</li>
+                        <li>You want to compare periods or series</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="two-col mb-6">
+                <div class="soft-card">
+                    <h3 class="section-title">Formatting settings that improve readability</h3>
+                    <ul class="check-list">
+                        <li>Show currency clearly where needed</li>
+                        <li>Reduce decimals unless precision matters</li>
+                        <li>Use conditional formatting sparingly to highlight exceptions</li>
+                        <li>Hide fields that do not help the reader</li>
+                        <li>Rename technical field labels into business language when possible</li>
+                    </ul>
+                </div>
+                <div class="soft-card">
+                    <h3 class="section-title">A note on colour</h3>
+                    <p class="small">
+                        Use colour to support the message, not to decorate the chart. Keep the palette restrained and consistent so people can read the pattern quickly.
+                    </p>
+                    <div class="four-col mt-4">
+                        <div class="card tiny" style="background:#003B49; color:white; text-align:center;">Primary</div>
+                        <div class="card tiny" style="background:#176149; color:white; text-align:center;">Positive</div>
+                        <div class="card tiny" style="background:#CBD5E1; text-align:center;">Neutral</div>
+                        <div class="card tiny" style="background:#FDE68A; text-align:center;">Attention</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="callout-box">
+                <strong>Remember:</strong>
+                A table is not a lesser visual. In many cases it is the clearest and most useful report format, especially when people need to investigate records or export results.
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Visual clarity over clutter</p>
+            <p class="page-no">Page 8</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 9 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Dashboards</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">Using dashboards as an operating view</h2>
+            </header>
+
+            <section class="two-col mb-6">
+                <div class="card">
+                    <h3 class="section-title">What dashboards are best for</h3>
+                    <ul class="check-list">
+                        <li>Tracking a small set of important metrics</li>
+                        <li>Monitoring change over time</li>
+                        <li>Comparing performance across categories</li>
+                        <li>Giving teams a shared reporting view</li>
+                    </ul>
+                </div>
+                <div class="soft-card">
+                    <h3 class="section-title">What dashboards are not for</h3>
+                    <ul class="dash-list">
+                        <li>Showing every chart available</li>
+                        <li>Replacing detailed investigation</li>
+                        <li>Combining unrelated topics on one page</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h3 class="section-title">How to interact with a dashboard</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>What it helps you do</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Use dashboard filters</td>
+                            <td>Narrow the whole view to a timeframe, location or category</td>
+                        </tr>
+                        <tr>
+                            <td>Open a chart in full view</td>
+                            <td>Inspect the report in more detail</td>
+                        </tr>
+                        <tr>
+                            <td>Drill into a data point</td>
+                            <td>See which underlying records make up that number</td>
+                        </tr>
+                        <tr>
+                            <td>Export where appropriate</td>
+                            <td>Take the result into Excel or another workflow if needed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="tip-box">
+                <div class="mini-title mb-1">Professional dashboard rule</div>
+                <p class="small mb-0">
+                    Keep each dashboard focused on one operational story. Four clear charts that answer one business question are more useful than twelve charts competing for attention.
+                </p>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Focused dashboards</p>
+            <p class="page-no">Page 9</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 10 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Organisation and sharing</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">Saving, sharing and keeping reporting tidy</h2>
+            </header>
+
+            <section class="two-col mb-6">
+                <div class="card">
+                    <h3 class="section-title">Personal vs shared work</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Location</th>
+                                <th>Use it for</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Personal area</td>
+                                <td>Drafts, tests, temporary analysis, rough exploration</td>
+                            </tr>
+                            <tr>
+                                <td>Shared area</td>
+                                <td>Team-facing reporting, recurring views, agreed dashboards</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="soft-card">
+                    <h3 class="section-title">Naming conventions that help</h3>
+                    <ul class="check-list">
+                        <li>Start with the business topic, not the dataset name</li>
+                        <li>Be specific about timeframe or metric where relevant</li>
+                        <li>Keep titles readable for someone outside your immediate team</li>
+                    </ul>
+                    <div class="mini-title mt-4">Examples</div>
+                    <ul class="dash-list">
+                        <li>Monthly Supplier Spend by Region</li>
+                        <li>Asset Maintenance Cost Trend</li>
+                        <li>Waste Volume by Site and Stream</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h3 class="section-title">Ownership and governance</h3>
+                <div class="three-col">
+                    <div class="card">
+                        <div class="mini-title">Draft reports</div>
+                        <p class="small mb-0">Owned by the person exploring a question.</p>
+                    </div>
+                    <div class="card">
+                        <div class="mini-title">Team dashboards</div>
+                        <p class="small mb-0">Should have an agreed owner who reviews relevance and accuracy.</p>
+                    </div>
+                    <div class="card">
+                        <div class="mini-title">New core reporting views</div>
+                        <p class="small mb-0">Should be discussed with Conifr if they require new logic or curated modelling.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="callout-box">
+                <strong>Good reporting is also good housekeeping.</strong>
+                Clear titles, agreed ownership and a tidy shared area make it much easier for teams to trust and reuse reporting.
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Organised reporting</p>
+            <p class="page-no">Page 10</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 11 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Self-service boundaries</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">How to work safely with Conifr data</h2>
+            </header>
+
+            <section class="two-col mb-6">
+                <div class="card">
+                    <h3 class="section-title">What you should do</h3>
+                    <ul class="check-list">
+                        <li>Use curated datasets as your starting point</li>
+                        <li>Apply filters, summaries and groupings to answer business questions</li>
+                        <li>Use drill-through and detail tables when you need to investigate</li>
+                        <li>Ask Conifr for help when you think a new curated view is needed</li>
+                    </ul>
+                </div>
+                <div class="soft-card">
+                    <h3 class="section-title">What to avoid</h3>
+                    <ul class="dash-list">
+                        <li>Rebuilding complex logic that is already handled in a curated view</li>
+                        <li>Mixing together datasets that are not intended for the same question</li>
+                        <li>Treating technical field names as if they always mean the same thing across every dataset</li>
+                        <li>Assuming a strange result must be wrong before checking the grain and filters</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h3 class="section-title">When to self-serve vs when to ask Conifr</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Situation</th>
+                            <th>Best path</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>You want a simple trend, ranking or comparison from an existing curated view</td>
+                            <td>Self-serve</td>
+                        </tr>
+                        <tr>
+                            <td>You need a new metric that depends on business logic not currently exposed</td>
+                            <td>Ask Conifr</td>
+                        </tr>
+                        <tr>
+                            <td>You suspect a dataset should combine multiple layers of information in a new way</td>
+                            <td>Ask Conifr</td>
+                        </tr>
+                        <tr>
+                            <td>You want a different chart or a new filter on an existing report</td>
+                            <td>Usually self-serve</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="tip-box">
+                <div class="mini-title mb-1">Why this boundary exists</div>
+                <p class="small mb-0">
+                    Conifr adds value by curating the data model, joins and reporting logic beneath the surface. Self-service works best when users explore the curated layer rather than trying to reconstruct that deeper analytical work themselves.
+                </p>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Safe self-service</p>
+            <p class="page-no">Page 11</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 12 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Common mistakes</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">The most common reporting errors and how to avoid them</h2>
+            </header>
+
+            <section class="mb-6">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Mistake</th>
+                            <th>What it looks like</th>
+                            <th>How to fix it</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Wrong grain</td>
+                            <td>Totals look too high or duplicated</td>
+                            <td>Check what each row represents before summarising</td>
+                        </tr>
+                        <tr>
+                            <td>Missing date filter</td>
+                            <td>Current and historic periods are mixed together</td>
+                            <td>Always confirm the timeframe first</td>
+                        </tr>
+                        <tr>
+                            <td>Too many categories in one chart</td>
+                            <td>Unreadable bar chart or crowded legend</td>
+                            <td>Limit to top values or split into separate views</td>
+                        </tr>
+                        <tr>
+                            <td>Using average when total is needed</td>
+                            <td>Results feel unexpectedly low or flat</td>
+                            <td>Reconfirm the metric matches the business question</td>
+                        </tr>
+                        <tr>
+                            <td>Unclear labels</td>
+                            <td>Readers do not understand what the chart shows</td>
+                            <td>Rename titles and axes in business language</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="two-col">
+                <div class="warn-box">
+                    <div class="mini-title">Before escalating a “data issue”</div>
+                    <ol class="num-list">
+                        <li>Check the timeframe</li>
+                        <li>Check the filters</li>
+                        <li>Check whether the dataset grain matches your assumption</li>
+                        <li>Check whether you are using the right metric</li>
+                    </ol>
+                </div>
+                <div class="tip-box">
+                    <div class="mini-title">A healthy approach</div>
+                    <p class="small mb-0">
+                        Treat unexpected results as a prompt to inspect the question, filters and dataset design first. Many surprises are caused by reporting setup rather than underlying data quality issues.
+                    </p>
+                </div>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Avoiding reporting mistakes</p>
+            <p class="page-no">Page 12</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 13 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Embedded AI analyst</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">Using Charlie to ask business questions in plain English</h2>
+            </header>
+
+            <section class="two-col mb-6">
+                <div class="card">
+                    <h3 class="section-title">What Charlie is good for</h3>
+                    <ul class="check-list">
+                        <li>Quick summaries and comparisons</li>
+                        <li>Investigating cost spikes or unusual movement</li>
+                        <li>Finding the right direction before building a full report</li>
+                        <li>Exploring profitability, margin, volume or operational patterns</li>
+                    </ul>
+                </div>
+                <div class="soft-card">
+                    <h3 class="section-title">What makes a good Charlie prompt</h3>
+                    <ul class="check-list">
+                        <li>State the metric clearly</li>
+                        <li>Include the timeframe</li>
+                        <li>Specify the comparison or dimension</li>
+                        <li>Ask one question at a time</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h3 class="section-title">Example prompts</h3>
+                <div class="two-col">
+                    <div class="card">
+                        <div class="mini-title">Finance and cost</div>
+                        <ul class="dash-list">
+                            <li>Show total supplier spend by month for this financial year</li>
+                            <li>Which suppliers increased in cost the most compared with last quarter?</li>
+                            <li>What are the top ten cost categories by site this month?</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="mini-title">Operations and performance</div>
+                        <ul class="dash-list">
+                            <li>Which assets had the highest maintenance cost this quarter?</li>
+                            <li>Show monthly fuel cost trend by depot</li>
+                            <li>Which jobs have the largest variance between expected and actual cost?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="callout-box">
+                <strong>Best use of Charlie:</strong>
+                Use it to move quickly from a business question to an initial answer. Once you know the pattern you want to track regularly, turn it into a saved report or dashboard.
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Conversational access to structured intelligence</p>
+            <p class="page-no">Page 13</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 14 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Examples</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">Common reporting patterns by business use case</h2>
+            </header>
+
+            <section class="three-col mb-6">
+                <div class="soft-card">
+                    <div class="mini-title">Finance</div>
+                    <ul class="check-list">
+                        <li>Monthly supplier spend</li>
+                        <li>Cost by GL or category</li>
+                        <li>Duplicate or exception review</li>
+                        <li>Trend by business unit</li>
+                    </ul>
+                </div>
+                <div class="soft-card">
+                    <div class="mini-title">Operations</div>
+                    <ul class="check-list">
+                        <li>Cost per asset</li>
+                        <li>Maintenance trend</li>
+                        <li>Utilisation and downtime views</li>
+                        <li>Leakage or variance analysis</li>
+                    </ul>
+                </div>
+                <div class="soft-card">
+                    <div class="mini-title">Sustainability</div>
+                    <ul class="check-list">
+                        <li>Emissions by category</li>
+                        <li>Site-level activity trend</li>
+                        <li>Waste and resource comparisons</li>
+                        <li>Monthly reporting packs</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h3 class="section-title">Pattern examples</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Business question</th>
+                            <th>Suggested report pattern</th>
+                            <th>Useful format</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Which suppliers are rising in cost?</td>
+                            <td>Total cost by supplier, grouped by month</td>
+                            <td>Bar chart + detail table</td>
+                        </tr>
+                        <tr>
+                            <td>Where is maintenance cost spiking?</td>
+                            <td>Total maintenance by asset and month</td>
+                            <td>Line chart + ranked table</td>
+                        </tr>
+                        <tr>
+                            <td>Which sites drive the highest emissions?</td>
+                            <td>Total emissions by site and category</td>
+                            <td>Stacked bar or table</td>
+                        </tr>
+                        <tr>
+                            <td>Where should we investigate leakage?</td>
+                            <td>Variance or exception counts by operational unit</td>
+                            <td>Table with conditional formatting</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="tip-box">
+                <div class="mini-title mb-1">Think in repeatable patterns</div>
+                <p class="small mb-0">
+                    Once one useful report is built, it can often be duplicated and adapted for another site, asset type, supplier group or business unit with only a few filter changes.
+                </p>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Applied reporting examples</p>
+            <p class="page-no">Page 14</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 15 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Trust and support</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">Why your reporting is faster inside Conifr</h2>
+            </header>
+
+            <section class="two-col mb-6">
+                <div class="card">
+                    <h3 class="section-title">What Conifr has already handled</h3>
+                    <ul class="check-list">
+                        <li>Reading information from fragmented files and reports</li>
+                        <li>Standardising naming and field structures</li>
+                        <li>Applying business logic and contextual mapping</li>
+                        <li>Preparing trusted views for reporting and analysis</li>
+                    </ul>
+                </div>
+                <div class="soft-card">
+                    <h3 class="section-title">What this gives your team</h3>
+                    <ul class="check-list">
+                        <li>Less manual data preparation</li>
+                        <li>More consistent reporting outputs</li>
+                        <li>Faster access to useful insights</li>
+                        <li>Greater confidence in the numbers being discussed</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="quote-box mb-6">
+                <div class="mini-title">The real benefit</div>
+                <p class="small mb-0">
+                    Your team spends less time stitching together spreadsheets and more time understanding what is happening in the business.
+                </p>
+            </section>
+
+            <section>
+                <h3 class="section-title">When to involve the Conifr team</h3>
+                <div class="three-col">
+                    <div class="card">
+                        <div class="mini-title">New data logic</div>
+                        <p class="small mb-0">You need a new business rule, classification or derived metric.</p>
+                    </div>
+                    <div class="card">
+                        <div class="mini-title">New curated view</div>
+                        <p class="small mb-0">A reporting need sits between multiple data layers and needs modelling support.</p>
+                    </div>
+                    <div class="card">
+                        <div class="mini-title">Ongoing analytical support</div>
+                        <p class="small mb-0">You want Conifr’s team to extend the model, build deeper insights or maintain priority reporting assets.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Platform plus analytical partnership</p>
+            <p class="page-no">Page 15</p>
+        </footer>
+    </div>
+
+    <!-- PAGE 16 -->
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <div class="brand-kicker">Glossary and checklist</div>
+                <div class="header-line"></div>
+                <h2 class="text-2xl font-extrabold" style="color:var(--conifr-teal);">Quick glossary and first-week checklist</h2>
+            </header>
+
+            <section class="two-col mb-6">
+                <div class="card">
+                    <h3 class="section-title">Glossary</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Term</th>
+                                <th>Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Curated view</td>
+                                <td>A business-ready dataset designed for reporting and analysis</td>
+                            </tr>
+                            <tr>
+                                <td>Grain</td>
+                                <td>The level of detail represented by one row</td>
+                            </tr>
+                            <tr>
+                                <td>Dimension</td>
+                                <td>A descriptive field used to group or filter, such as site or supplier</td>
+                            </tr>
+                            <tr>
+                                <td>Metric</td>
+                                <td>A numeric value used for analysis, such as cost, quantity or emissions</td>
+                            </tr>
+                            <tr>
+                                <td>Drill-through</td>
+                                <td>Opening a summary result to inspect the underlying records</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="soft-card">
+                    <h3 class="section-title">Your first-week checklist</h3>
+                    <ul class="check-list">
+                        <li>Review the datasets relevant to your role</li>
+                        <li>Understand the grain of the main views you use</li>
+                        <li>Build one simple report from a curated dataset</li>
+                        <li>Save one draft in your personal area</li>
+                        <li>Review one shared dashboard used by your team</li>
+                        <li>Try one plain-English question in Charlie</li>
+                        <li>Note any recurring question that may need a new curated view</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="callout-box">
+                <strong>Final reminder:</strong>
+                Use Conifr to explore trusted data confidently, but do not feel you need to do everything yourself. Strong self-service works best alongside a curated data model and access to deeper analytical support when needed.
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Quick-start reference</p>
+            <p class="page-no">Page 16</p>
+        </footer>
+    </div>
+
+</body>
+</html>
