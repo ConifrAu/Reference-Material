@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta name="robots" content="noindex">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Working with Reports & Dashboards in Conifr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --conifr-green: #176149;
+            --conifr-teal: #003B49;
+            --conifr-mint: #539A7E;
+            --conifr-bg: #F1F5F9;
+            --conifr-soft: #F8FAFC;
+            --conifr-border: #E2E8F0;
+            --conifr-text: #334155;
+            --conifr-muted: #64748B;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--conifr-bg);
+            color: var(--conifr-text);
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Responsive Screen Layout */
+        .page-container {
+            background: white;
+            max-width: 1200px;
+            width: 95%;
+            margin: 30px auto;
+            padding: 40px 50px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .page-content {
+            flex-grow: 1;
+        }
+
+        .page-footer {
+            flex-shrink: 0;
+            padding-top: 1.2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--conifr-border);
+            font-size: 0.8rem;
+            color: var(--conifr-muted);
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        /* Image Handling */
+        .ui-screenshot {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            border: 1px solid var(--conifr-border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: block;
+            margin: 14px 0;
+        }
+
+        .ui-screenshot-small {
+            max-width: 200px;
+        }
+
+        .brand-kicker {
+            margin-top: 4px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--conifr-green);
+            text-transform: uppercase;
+        }
+
+        .header-line {
+            width: 110px;
+            height: 4px;
+            background: var(--conifr-green);
+            margin-top: 8px;
+            margin-bottom: 18px;
+            border-radius: 999px;
+        }
+
+        .section-title {
+            color: var(--conifr-green);
+            font-size: 1.15rem;
+            font-weight: 800;
+            border-bottom: 2px solid var(--conifr-bg);
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+
+        .eyebrow {
+            color: var(--conifr-green);
+            font-size: 0.76rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .callout-box {
+            background: var(--conifr-soft);
+            border-left: 4px solid var(--conifr-mint);
+            padding: 18px 20px;
+            border-radius: 6px;
+        }
+
+        .tip-box {
+            background: #F0FDFA;
+            border: 1px solid #A7F3D0;
+            padding: 16px 20px;
+            border-radius: 10px;
+        }
+
+        .warn-box {
+            background: #FFF7ED;
+            border: 1px solid #FED7AA;
+            padding: 16px 20px;
+            border-radius: 10px;
+        }
+
+        .card {
+            border: 1px solid var(--conifr-border);
+            border-radius: 12px;
+            padding: 20px;
+            background: white;
+        }
+
+        .soft-card {
+            border: 1px solid var(--conifr-border);
+            border-radius: 12px;
+            padding: 20px;
+            background: var(--conifr-soft);
+        }
+
+        .mini-title {
+            color: var(--conifr-teal);
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .check-list, .dash-list, .num-list {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+
+        .check-list li, .dash-list li, .num-list li {
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .data-table th,
+        .data-table td {
+            border: 1px solid var(--conifr-border);
+            padding: 12px 14px;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .data-table th {
+            background: var(--conifr-teal);
+            color: white;
+            font-weight: 700;
+        }
+
+        .muted {
+            color: var(--conifr-muted);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, #F8FAFC, #EFF6FF);
+            border: 1px solid var(--conifr-border);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .cover-hero {
+            background: linear-gradient(135deg, rgba(0,59,73,1) 0%, rgba(23,97,73,1) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+        }
+
+        .cover-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .small {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .page-no {
+            font-weight: 700;
+            color: var(--conifr-teal);
+        }
+
+        .toc-link {
+            color: var(--conifr-teal);
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--conifr-border);
+            font-size: 1.05rem;
+        }
+
+        .toc-link:hover {
+            color: var(--conifr-green);
+        }
+
+        /* Strict A4 Format for Printing */
+        @media print {
+            body { background: white !important; }
+            .page-container {
+                margin: 0;
+                width: 210mm;
+                max-width: 210mm;
+                min-height: 297mm;
+                padding: 15mm 18mm 14mm 18mm;
+                box-shadow: none;
+                page-break-after: always;
+                border-radius: 0;
+            }
+            .toc-link { text-decoration: none; color: var(--conifr-text); }
+            .ui-screenshot { border-color: #ccc; box-shadow: none; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="page-container">
+        <div class="page-content flex flex-col justify-between">
+            <div>
+                <header class="mb-10">
+                    <div style="display:flex; flex-direction:column; align-items:flex-start;">
+                        <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/conifr-logo.svg" alt="Conifr logo" style="width:200px; height:auto;">
+                        <div class="brand-kicker">Operational Intelligence Platform</div>
+                    </div>
+                </header>
+
+                <section class="cover-hero mb-8">
+                    <div class="cover-grid">
+                        <div>
+                            <div class="eyebrow text-white" style="color:#D1FAE5;">User Guide</div>
+                            <h1 style="font-size:3.2rem; line-height:1.1; font-weight:800; margin:10px 0 14px 0;">Working with Reports & Dashboards</h1>
+                            <p style="font-size:1.15rem; line-height:1.7; color:#E2E8F0; max-width:95%;">
+                                A practical guide to using your data in Conifr. Learn exactly what to click, what to check, and how to interact safely with curated datasets.
+                            </p>
+                        </div>
+                        <div class="soft-card" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.12); color:white;">
+                            <div class="mini-title" style="color:white;">What this guide is for</div>
+                            <ul class="check-list" style="padding-left:1rem;">
+                                <li>How to actually use dashboards and reports</li>
+                                <li>How to interact with charts, filters, and tables</li>
+                                <li>How to troubleshoot when things look wrong</li>
+                                <li>How to avoid common usage mistakes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="two-col">
+                    <div class="card">
+                        <div class="mini-title">A hands-on approach</div>
+                        <p class="small">
+                            This is not a conceptual guide. This document is designed to show you exactly how to navigate the platform, validate numbers, and adjust views safely. All datasets have been carefully curated and the underlying logic is managed by Conifr. Your job is simply to ask questions.
+                        </p>
+                    </div>
+                    <div class="card">
+                        <div class="mini-title">Who this guide is for</div>
+                        <p class="small">
+                            Anyone exploring data, reviewing dashboards, or seeking specific answers in Conifr. You do not need to understand data models to use these tools effectively.
+                        </p>
+                    </div>
+                </section>
+            </div>
+
+            <section class="soft-card mt-8">
+                <div class="mini-title">What’s inside</div>
+                <div class="two-col small">
+                    <div>
+                        <strong>1. Navigating Dashboards</strong><br>
+                        <strong>2. Opening Reports Properly</strong><br>
+                        <strong>3. Understanding Filters</strong><br>
+                        <strong>4. Drill-Down Behaviour</strong>
+                    </div>
+                    <div>
+                        <strong>5. Changing Charts & Views</strong><br>
+                        <strong>6. Fixing Common Issues</strong><br>
+                        <strong>7. Saving & Editing Reports</strong><br>
+                        <strong>8. Example Walkthroughs</strong>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Working with Reports & Dashboards</p>
+            <p class="page-no">Page 1</p>
+        </footer>
+    </div>
+
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6">
+                <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/conifr-logo.svg" alt="Conifr logo" style="width:150px; height:auto;">
+                <div class="brand-kicker">Navigation</div>
+                <div class="header-line"></div>
+                <h2 class="text-3xl font-extrabold" style="color:var(--conifr-teal);">Table of Contents</h2>
+            </header>
+
+            <section class="soft-card">
+                <p class="small mb-6">Click any link below to jump straight to that section.</p>
+                <div class="two-col">
+                    <div>
+                        <a href="#navigating-dashboards" class="toc-link">1. Navigating Dashboards</a>
+                        <a href="#opening-reports" class="toc-link">2. Opening Reports Properly</a>
+                        <a href="#understanding-filters" class="toc-link">3. Understanding Filters</a>
+                        <a href="#drill-down" class="toc-link">4. Drill-Down Behaviour</a>
+                    </div>
+                    <div>
+                        <a href="#changing-charts" class="toc-link">5. Changing Charts & Views</a>
+                        <a href="#fixing-issues" class="toc-link">6. Fixing Common Issues</a>
+                        <a href="#saving-editing" class="toc-link">7. Saving & Editing Reports</a>
+                        <a href="#walkthroughs" class="toc-link">8. Example Walkthroughs</a>
+                    </div>
+                </div>
+            </section>
+
+            <div class="mt-8 callout-box">
+                <strong>Remember:</strong> Conifr has already done the heavy lifting by standardising naming and preparing trusted, curated views. You should not attempt to rebuild logic from scratch. Focus on using filters and groupings effectively.
+            </div>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Working with Reports & Dashboards</p>
+            <p class="page-no">Page 2</p>
+        </footer>
+    </div>
+
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6" id="navigating-dashboards">
+                <div class="brand-kicker">Finding your way</div>
+                <div class="header-line"></div>
+                <h2 class="text-3xl font-extrabold" style="color:var(--conifr-teal);">Navigating Dashboards</h2>
+            </header>
+
+            <section class="two-col mb-6">
+                <div class="card">
+                    <h3 class="section-title">Dashboards are entry points</h3>
+                    <p class="small">
+                        Think of a dashboard as a shop window. It is meant for quick review and monitoring. Dashboards are <strong>not</strong> your working views. If you want to dig into the data, you need to step through the window into the actual report.
+                    </p>
+                    <div class="mini-title mt-4">Dashboard vs Report</div>
+                    <ul class="dash-list">
+                        <li><strong>Dashboard:</strong> A collection of fixed charts showing a high-level summary. Great for daily checks.</li>
+                        <li><strong>Report:</strong> The individual, interactive workspace where a single chart lives. This is where real analysis happens.</li>
+                    </ul>
+                </div>
+                <div class="soft-card">
+                    <h3 class="section-title">How to move past the dashboard</h3>
+                    <p class="small">
+                        To investigate a number or change how a chart looks, you must click the <strong>title of the card</strong> on the dashboard. This opens the full report view.
+                    </p>
+                    <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Dashboard+Card+Title+Link.png" alt="Dashboard Card Title Link" class="ui-screenshot ui-screenshot-small">
+                    <div class="tip-box mt-4">
+                        <div class="mini-title mb-1">This catches most users out</div>
+                        <p class="small mb-0">
+                            Many users try to do all their analysis on the dashboard screen by clicking the bars or lines directly. This only applies a temporary filter. Always click the title to open the report properly.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <header class="mb-6 mt-12" id="opening-reports">
+                <div class="brand-kicker">Getting to work</div>
+                <div class="header-line"></div>
+                <h2 class="text-3xl font-extrabold" style="color:var(--conifr-teal);">Opening Reports Properly</h2>
+            </header>
+
+            <section class="mb-6">
+                <div class="card">
+                    <h3 class="section-title">Why working in the full report matters</h3>
+                    <p class="small mb-4">
+                        When you open the full report, you unlock the tools necessary to actually answer your questions.
+                    </p>
+                    <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Full+Report+Interface.png" alt="The Full Report Interface" class="ui-screenshot mb-6">
+                    <div class="three-col">
+                        <div>
+                            <div class="mini-title">Access to all filters</div>
+                            <p class="small">You can see exactly what data is included or excluded, removing the guesswork.</p>
+                        </div>
+                        <div>
+                            <div class="mini-title">Change groupings</div>
+                            <p class="small">Easily switch from viewing data by "Month" to viewing it by "Supplier" or "Site".</p>
+                        </div>
+                        <div>
+                            <div class="mini-title">Chart settings</div>
+                            <p class="small">Change a confusing bar chart into a clean data table with a single click to validate the numbers.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Working with Reports & Dashboards</p>
+            <p class="page-no">Page 3</p>
+        </footer>
+    </div>
+
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6" id="understanding-filters">
+                <div class="brand-kicker">Controlling your data</div>
+                <div class="header-line"></div>
+                <h2 class="text-3xl font-extrabold" style="color:var(--conifr-teal);">Understanding Filters</h2>
+            </header>
+
+            <section class="mb-8">
+                <div class="two-col">
+                    <div class="card">
+                        <h3 class="section-title">Dashboard filters vs Report filters</h3>
+                        <p class="small">Filters exist in two places, and they behave differently:</p>
+                        <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Dashboard+Filter+Bar.png" alt="Dashboard Filter Bar" class="ui-screenshot">
+                        <ul class="check-list mt-3">
+                            <li><strong>Dashboard Filters:</strong> Found at the top of a dashboard. They apply to <em>multiple</em> charts at once.</li>
+                            <li><strong>Report Filters:</strong> Found inside an individual report. They are the "hardcoded" rules for that specific view.</li>
+                        </ul>
+                    </div>
+                    <div class="soft-card">
+                        <h3 class="section-title">Filter persistence</h3>
+                        <p class="small">
+                            Filters persist after interactions. If you apply a filter, it stays there until you remove it. Active filters are visible at the top of a report.
+                        </p>
+                        <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Report+Filter+Pills.png" alt="Report Filter Pills" class="ui-screenshot mb-3">
+                        <div class="warn-box">
+                            <div class="mini-title mb-1">Crucial rule</div>
+                            <p class="small mb-0">If something looks wrong, check the filters first. Overlapping or conflicting filters are the cause of 90% of data questions.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-8 two-col">
+                <div>
+                    <h3 class="section-title">Adding a Filter</h3>
+                    <p class="small mb-2">To narrow down the data in a full report, click the Add Filter button.</p>
+                    <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Add+Filter+Button.png" alt="Add Filter Button" class="ui-screenshot ui-screenshot-small mb-4">
+                    <h3 class="section-title mt-6">Setting Timeframes</h3>
+                    <p class="small mb-2">When filtering dates, use relative timeframes like "Previous Quarter" so the report automatically updates over time.</p>
+                    <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Date+Filter+UI+-+Fixed+Date+Range.png" alt="Date Filter UI" class="ui-screenshot ui-screenshot-small">
+                </div>
+
+                <div>
+                    <h3 class="section-title">Common filter scenarios</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Situation</th>
+                                <th>What to do</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>The chart is completely blank.</td>
+                                <td>Remove all filters and add them back one by one.</td>
+                            </tr>
+                            <tr>
+                                <td>A site or supplier is missing.</td>
+                                <td>Open the full report, check the top filter bar, and clear exclusions.</td>
+                            </tr>
+                            <tr>
+                                <td>Numbers are lower than expected.</td>
+                                <td>Check the top bar for active filter pills and click the 'X' to remove them.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="callout-box mt-4">
+                        <div class="mini-title">What just happened?</div>
+                        <p class="small mb-1"><strong>You changed a dashboard filter, but one chart didn't update.</strong></p>
+                        <p class="small mb-0">
+                            <strong>Why it happens:</strong> Dashboard filters must be manually wired to every chart. If it ignores your filter, it isn't connected.
+                            <br><br>
+                            <strong>What to do:</strong> Open the full report and apply the filter directly inside the report view.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Working with Reports & Dashboards</p>
+            <p class="page-no">Page 4</p>
+        </footer>
+    </div>
+
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6" id="drill-down">
+                <div class="brand-kicker">Looking closer</div>
+                <div class="header-line"></div>
+                <h2 class="text-3xl font-extrabold" style="color:var(--conifr-teal);">Drill-Down Behaviour</h2>
+            </header>
+
+            <section class="mb-8">
+                <div class="callout-box mb-6" style="border-left-color: var(--conifr-green);">
+                    <div class="mini-title" style="color:var(--conifr-green);">This is the most common source of confusion</div>
+                    <p class="small mb-0">
+                        Understanding exactly what happens when you click on a chart element is the difference between finding the right answer and getting completely lost.
+                    </p>
+                </div>
+
+                <div class="two-col">
+                    <div class="card">
+                        <h3 class="section-title">What clicking a chart actually does</h3>
+                        <p class="small">
+                            When you click a bar, line, or pie slice, the system <strong>applies a hard filter</strong> for that specific value and opens a pop-up to show you the next level of detail.
+                        </p>
+                        <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Drill+Down+Popup.png" alt="Drill Down Menu Popup" class="ui-screenshot ui-screenshot-small">
+                        <ul class="dash-list mt-3">
+                            <li>It isolates the data.</li>
+                            <li>It does <strong>NOT</strong> recreate the full context of your original view.</li>
+                        </ul>
+                    </div>
+                    <div class="soft-card">
+                        <h3 class="section-title">A practical example</h3>
+                        <p class="small mb-2">Imagine a chart showing <em>Total Cost by Category</em>. You see a massive spike in "Fuel Cost" and click the bar to investigate.</p>
+                        <p class="small mb-2"><strong>What happens:</strong> The system applies a filter: <code>Category = Fuel Cost</code>.</p>
+                        <p class="small"><strong>What you see next:</strong> The view changes entirely. You are no longer looking at categories. The system might show you Fuel Cost by Supplier, or simply list every raw transaction. The original context is gone.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-8">
+                <h3 class="section-title">How to drill down safely</h3>
+                <ol class="num-list">
+                    <li><strong>Open the full report first.</strong> Never try to do deep drill-downs from the dashboard view.</li>
+                    <li><strong>Identify what you want to isolate.</strong> (e.g., "I only want to look at Depot A").</li>
+                    <li><strong>Apply a filter manually</strong> instead of clicking the chart. This keeps you in control of the view.</li>
+                    <li><strong>Change the grouping.</strong> If you were looking at Month, change the grouping to Supplier to see who made up that month's total.</li>
+                </ol>
+            </section>
+
+            <section class="quote-box">
+                <div class="mini-title">What just happened?</div>
+                <p class="small mb-1"><strong>You clicked a bar chart, the screen changed, and now you can't get back.</strong></p>
+                <p class="small mb-3">
+                    <strong>Why it happens:</strong> You initiated a drill-down. The system applied a temporary filter and altered the grouping.
+                </p>
+                <p class="small mb-3">
+                    <strong>What to do:</strong> Look at the top of your screen for the breadcrumb navigation. Clicking the title of the original report will return you to safety. 
+                </p>
+                <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Breadcrumb.png" alt="Breadcrumb Navigation" class="ui-screenshot">
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Working with Reports & Dashboards</p>
+            <p class="page-no">Page 5</p>
+        </footer>
+    </div>
+
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6" id="changing-charts">
+                <div class="brand-kicker">Adapting the view</div>
+                <div class="header-line"></div>
+                <h2 class="text-3xl font-extrabold" style="color:var(--conifr-teal);">Changing Charts & Views</h2>
+            </header>
+
+            <section class="two-col mb-8">
+                <div class="card">
+                    <h3 class="section-title">Tables vs Charts</h3>
+                    <p class="small mb-4">Different views serve different purposes. You can switch between them using the visualisation menu in a full report.</p>
+                    <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Visualization+Menu.png" alt="Visualization Menu showing chart options" class="ui-screenshot" style="max-width: 300px;">
+                    <ul class="check-list mt-4">
+                        <li><strong>Tables = Validation:</strong> Always use a table when you need to verify numbers, sort highest to lowest, or check data quality.</li>
+                        <li><strong>Charts = Presentation:</strong> Use charts to highlight trends, outliers, or proportions to an audience.</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <div class="soft-card mb-4">
+                        <h3 class="section-title">Adjusting a table</h3>
+                        <p class="small mb-2"><strong>Sorting:</strong> Click any column header to sort ascending or descending. This is the fastest way to find top offenders.</p>
+                        <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Table+Sorting+Arrow.png" alt="Table sorting arrow UI" class="ui-screenshot ui-screenshot-small">
+                    </div>
+                    
+                    <div class="soft-card">
+                        <h3 class="section-title">Formatting Options</h3>
+                        <p class="small mb-2"><strong>Settings Menu:</strong> Use the gear icon next to the visualization button to hide columns, format currency, or set a top-limit cutoff.</p>
+                        <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Chart+Setting+Gear+Icon.png" alt="Chart settings gear icon" class="ui-screenshot ui-screenshot-small">
+                    </div>
+                </div>
+            </section>
+
+            <header class="mb-6 mt-12" id="fixing-issues">
+                <div class="brand-kicker">Troubleshooting</div>
+                <div class="header-line"></div>
+                <h2 class="text-3xl font-extrabold" style="color:var(--conifr-teal);">Fixing Common Issues</h2>
+            </header>
+
+            <section>
+                <div class="two-col items-start">
+                    <div>
+                        <p class="small mb-4">If this looks wrong, it usually means there is a simple structural issue with your view. Use this diagnostic table before assuming the data is broken.</p>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Issue</th>
+                                    <th>Fix</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Numbers are massively inflated</strong></td>
+                                    <td>Switch to a Table view. Check if rows are duplicated. You are likely summing a metric across the wrong grain.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Missing data points</strong></td>
+                                    <td>A dashboard filter is acting on a field that doesn't exist. Open full report and apply filter manually.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Drill-down looks like nonsense</strong></td>
+                                    <td>Don't click the chart. Manually change the "Group By" field instead.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card text-center flex flex-col items-center justify-center">
+                        <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/No+Results+Empty+State.png" alt="No results sailboat graphic" class="ui-screenshot" style="border:none; box-shadow:none; max-width: 250px;">
+                        <h4 class="mini-title mt-2">Dealing with "No Results"</h4>
+                        <p class="small text-left">Filters are too restrictive or conflict with each other. Clear all filters. Re-add the date filter first, then check the data again.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Working with Reports & Dashboards</p>
+            <p class="page-no">Page 6</p>
+        </footer>
+    </div>
+
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6" id="saving-editing">
+                <div class="brand-kicker">Housekeeping</div>
+                <div class="header-line"></div>
+                <h2 class="text-3xl font-extrabold" style="color:var(--conifr-teal);">Saving & Editing Reports</h2>
+            </header>
+
+            <section class="mb-8">
+                <div class="card">
+                    <h3 class="section-title">Viewing vs Editing</h3>
+                    <p class="small">
+                        You can change filters, sort tables, and switch visualisations as much as you like while <strong>viewing</strong> a report. None of this breaks the report for anyone else unless you hit Save.
+                    </p>
+                </div>
+            </section>
+
+            <section class="two-col mb-8">
+                <div class="soft-card">
+                    <h3 class="section-title">Save vs Save As</h3>
+                    <p class="small mb-4">When you click save after making changes, you will be prompted with a choice:</p>
+                    <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Save+vs+Save+As+Popup.png" alt="Save vs Save As popup modal" class="ui-screenshot">
+                    <ul class="check-list mt-4">
+                        <li><strong>Replace (Save):</strong> Overwrites the existing report. Everyone sees your changes immediately.</li>
+                        <li><strong>Save as new (Duplicate):</strong> Creates a brand new copy. The safest way to experiment.</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <div class="warn-box mb-6">
+                        <div class="mini-title mb-1">Golden Rule</div>
+                        <p class="small mb-0">
+                            Do not casually overwrite shared reports. If a report lives in a team folder, use "Save As" to make your own copy before changing metrics or fundamental groupings.
+                        </p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="section-title">Personal vs Shared Reports</h3>
+                        <p class="small mb-4">Always save drafts and tests into your personal collection.</p>
+                        <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Personal+Collection+Sidebar.png" alt="Personal collection folder in sidebar" class="ui-screenshot ui-screenshot-small">
+                        <table class="data-table mt-4">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Personal Area</strong></td>
+                                    <td>Your private sandbox. Safe to break and test logic.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Shared Area</strong></td>
+                                    <td>The source of truth. Built from curated datasets.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="callout-box">
+                <div class="mini-title">What just happened?</div>
+                <p class="small mb-1"><strong>You opened a dashboard and the charts look completely different than yesterday.</strong></p>
+                <p class="small mb-0">
+                    <strong>Why it happens:</strong> Someone opened the underlying report, changed the visualization or grouping, and hit "Save" instead of "Save As".
+                    <br><br>
+                    <strong>What to do:</strong> Open the report, review the history (if available), or manually revert the chart back to its intended state and save it.
+                </p>
+            </section>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Working with Reports & Dashboards</p>
+            <p class="page-no">Page 7</p>
+        </footer>
+    </div>
+
+    <div class="page-container">
+        <div class="page-content">
+            <header class="mb-6" id="walkthroughs">
+                <div class="brand-kicker">Putting it into practice</div>
+                <div class="header-line"></div>
+                <h2 class="text-3xl font-extrabold" style="color:var(--conifr-teal);">Example Walkthroughs</h2>
+            </header>
+
+            <section class="mb-8 two-col">
+                <div class="card">
+                    <h3 class="section-title">Example 1: Investigate a Cost Spike</h3>
+                    <p class="small mb-3 text-slate-500">You are looking at a dashboard showing Monthly Costs, and last month has a massive, unexpected spike.</p>
+                    
+                    <ol class="num-list">
+                        <li><strong>Open the report:</strong> Click the title of the card to open the full report workspace.</li>
+                        <li><strong>Check filters:</strong> Note what filters are currently applied.</li>
+                        <li><strong>Filter to the spike:</strong> Manually add a filter for the specific month in question.</li>
+                        <li><strong>Break it down:</strong> Open the "Group By" setting. Remove "Month" and replace it with "Category" or "Supplier".</li>
+                        <li><strong>Switch view:</strong> Change the visualisation to a Table, then sort the "Total Cost" header highest to lowest. The culprit will float to the top.</li>
+                    </ol>
+                </div>
+                
+                <div class="soft-card">
+                    <h3 class="section-title">Example 2: Find Top Suppliers</h3>
+                    <p class="small mb-3 text-slate-500">You need to know who your top 10 suppliers were over the last quarter.</p>
+                    
+                    <ol class="num-list">
+                        <li><strong>Start clean:</strong> Open a curated supplier spend dataset.</li>
+                        <li><strong>Filter timeframe:</strong> Set the Date to "Previous Quarter".</li>
+                        <li><strong>Group the data:</strong> Click "Group By" and select "Supplier Name".</li>
+                        <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Group+By+Button.png" alt="Group by UI menu" class="ui-screenshot ui-screenshot-small my-2">
+                        <li><strong>Summarise:</strong> Ensure the metric is set to "Sum of Total Spend".</li>
+                        <img src="https://conifr-defaullt-tenant.s3.ap-southeast-2.amazonaws.com/43811DCD-8C5A-4EF9-B903-2EEA9CE88487/Branding/App+Screenshots/Summarize+Button+with+Menu.png" alt="Summarize metric button" class="ui-screenshot ui-screenshot-small my-2">
+                        <li><strong>Sort & View:</strong> View as a Table and sort descending, or use a Bar Chart with the settings gear to show only the "Top 10".</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="two-col">
+                <div class="card" style="border-color: #FCA5A5;">
+                    <h3 class="section-title" style="color: #B91C1C;">Example 3: Fix a Broken Report</h3>
+                    <p class="small mb-3 text-slate-500">You open a shared report, and it says "No Results" or looks completely broken.</p>
+                    
+                    <ol class="num-list">
+                        <li><strong>Reset filters:</strong> Look at the active filter pills. Remove all of them by clicking the 'X'. </li>
+                        <li><strong>Switch to table:</strong> Change the visualisation back to a Table. This removes chart rendering errors.</li>
+                        <li><strong>Check grouping:</strong> Ensure you aren't grouping by a field that is completely empty.</li>
+                        <li><strong>Rebuild slowly:</strong> Add the date filter back first. Check the data. Then add the next filter. Find the exact step that breaks the view.</li>
+                    </ol>
+                </div>
+                
+                <div class="soft-card" style="background:#F0FDFA; border-color:#86EFAC;">
+                    <h3 class="section-title">Example 4: Validate a Number</h3>
+                    <p class="small mb-3 text-slate-500">A dashboard says $50k, but your spreadsheet says $42k. Find the difference.</p>
+                    
+                    <ol class="num-list">
+                        <li><strong>Open the report:</strong> Click the card title.</li>
+                        <li><strong>Check filters:</strong> Are you looking at exactly the same timeframe? Are exclusions matching?</li>
+                        <li><strong>Compare granularly:</strong> Group by "Month" and view as a Table. Compare the monthly totals to find the specific month that differs.</li>
+                        <li><strong>Drill deeper:</strong> Filter the report to only show that month. Group by "Job ID" or "Asset" to find the exact line item causing the variance.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <div class="mt-8 tip-box">
+                <div class="mini-title">The ultimate takeaway</div>
+                <p class="small mb-0">
+                    When in doubt, clear your filters, switch to a table, and look at the raw rows. Curated datasets are designed to be reliable; visualisations and filters are usually where the confusion happens.
+                </p>
+            </div>
+        </div>
+        <footer class="page-footer">
+            <p>conifr.ai | Working with Reports & Dashboards</p>
+            <p class="page-no">Page 8</p>
+        </footer>
+    </div>
+
+</body>
+</html>
