@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Insurance vs Breach Rate Insight</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --conifr-green: #18624A;
+      --conifr-mint: #77BB9D;
+      --conifr-gold: #816005;
+      --bg: #F7FAF8;
+      --text: #1F2A24;
+      --muted: #5E6B64;
+      --card: #FFFFFF;
+      --border: #DDE8E2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 18px;
+      font-family: "Roboto Condensed", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .insight-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 6px solid var(--conifr-green);
+      border-radius: 14px;
+      padding: 18px 20px;
+      max-width: 760px;
+      box-shadow: 0 8px 24px rgba(24, 98, 74, 0.08);
+    }
+
+    .label {
+      display: inline-block;
+      background: rgba(119, 187, 157, 0.22);
+      color: var(--conifr-green);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      color: var(--conifr-green);
+      font-size: 26px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+
+    .summary {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .stat {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: #FBFDFB;
+    }
+
+    .stat-value {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--conifr-green);
+      line-height: 1;
+    }
+
+    .stat-label {
+      margin-top: 6px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    ul {
+      margin: 14px 0 0;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    strong {
+      color: var(--conifr-green);
+    }
+
+    .note {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(129, 96, 5, 0.08);
+      border: 1px solid rgba(129, 96, 5, 0.22);
+      color: var(--conifr-gold);
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 500;
+    }
+
+    @media (max-width: 560px) {
+      body {
+        padding: 12px;
+      }
+
+      .stat-row {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="insight-card">
+    <div class="label">Chart Interpretation</div>
+
+    <h1>Cyber insurance is associated with higher reported breach rates</h1>
+
+    <p class="summary">
+      Respondents with cyber insurance reported a materially higher breach rate than those without insurance. This should be read as an exposure and maturity signal, not proof that insurance increases cyber risk.
+    </p>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-value">27.36%</div>
+        <div class="stat-label">Breach rate among organisations with cyber insurance</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-value">6.12%</div>
+        <div class="stat-label">Breach rate among organisations without cyber insurance</div>
+      </div>
+    </div>
+
+    <ul>
+      <li><strong>Insurance may be reactive:</strong> some organisations may take out cyber insurance after a breach, near miss, or risk review.</li>
+      <li><strong>Insured organisations may be more exposed:</strong> larger or more digitally dependent organisations are more likely to buy insurance and also face greater attack surface.</li>
+      <li><strong>Detection matters:</strong> uninsured organisations may not necessarily be safer; they may simply have weaker monitoring or lower incident visibility.</li>
+      <li><strong>Insurance is not a control:</strong> the result reinforces that insurance should sit alongside governance, incident response testing, and technical controls.</li>
+    </ul>
+
+    <div class="note">
+      Recommended follow-up: compare breach rate by insurance status within organisation size and industry segments to determine whether this pattern is driven by exposure, maturity, or sector mix.
+    </div>
+  </section>
+</body>
+</html>
